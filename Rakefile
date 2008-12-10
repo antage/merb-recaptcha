@@ -27,11 +27,12 @@ spec = Gem::Specification.new do |s|
   s.email = EMAIL
   s.homepage = HOMEPAGE
   s.require_path = 'lib'
-  s.files = %w(LICENSE README Rakefile TODO) + Dir.glob("{lib,spec}/**/*") - Dir.glob("spec/fixture/log/**/*")
+  s.files = %w(LICENSE README Rakefile TODO merb-recaptcha.gemspec) + Dir["lib/**/*"].select { |f| File.file?(f) }
+  s.test_files = %w(spec/spec_helper.rb) + Dir["spec/*_spec.rb"] + Dir["spec/fixture/app/**/*"].select { |f| File.file?(f) }
 
-  s.add_dependency "merb-core", ">= 1.0.0"
-  s.add_dependency "builder", "~> 2.0"
-  s.add_development_dependency "rspec", "~> 1.0"
+  s.add_runtime_dependency "merb-core", ">= 1.0.0"
+  s.add_runtime_dependency "builder", "~> 2.0"
+  s.add_development_dependency "rspec", ">= 1.1.0"
 end
 
 Rake::GemPackageTask.new(spec) do |pkg|
