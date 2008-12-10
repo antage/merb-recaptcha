@@ -20,14 +20,14 @@ spec = Gem::Specification.new do |s|
   s.version = GEM_VERSION
   s.platform = Gem::Platform::RUBY
   s.has_rdoc = true
-  s.extra_rdoc_files = ["README", "LICENSE", 'TODO']
+  s.extra_rdoc_files = ["README.textile", "LICENSE", 'TODO']
   s.summary = SUMMARY
   s.description = s.summary
   s.author = AUTHOR
   s.email = EMAIL
   s.homepage = HOMEPAGE
   s.require_path = 'lib'
-  s.files = %w(LICENSE README Rakefile TODO merb-recaptcha.gemspec) + Dir["lib/**/*"].select { |f| File.file?(f) }
+  s.files = %w(LICENSE README.textile Rakefile TODO merb-recaptcha.gemspec) + Dir["lib/**/*"].select { |f| File.file?(f) }
   s.test_files = %w(spec/spec_helper.rb) + Dir["spec/*_spec.rb"] + Dir["spec/fixture/app/**/*"].select { |f| File.file?(f) }
 
   s.add_runtime_dependency "merb-core", ">= 1.0.0"
