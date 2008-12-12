@@ -1,0 +1,45 @@
+= merb-recaptcha
+
+== About
+
+Merb-recaptcha is plugin for Merb web-framework. It provides view and controller helpers for Recaptcha service.
+
+== Installation
+
+Install gem from github.com:
+    gem install antage-merb-recaptcha --source=http://gems.github.com
+
+Add following line in <tt>config/dependencies.rb</tt> of your web application:
+    dependency "antage-merb-recaptcha", "~> 1.0.0", :require_as => "merb-recaptcha"
+
+Sign up at Recaptcha and get public and private keys. Add keys in <tt>config/init.rb</tt>:
+    Merb::BootLoader.after_app_loads do
+      Merb::Plugins.config[:merb_recaptcha][:public_key] = "... here your public key ..."
+      Merb::Plugins.config[:merb_recaptcha][:private_key] = "... here your private key ..."
+    end
+
+== Usage
+
+Just add helper in your form:
+    <%= form_for @users, :action => resource(:users), :method => :post do %>
+      .....
+      <%= recaptcha_tags %>
+      <%= submit "Send" %>
+    <% end %>
+
+And then check captcha in controller:
+    class Users < Application
+      ......
+      def create(user)
+        @user = User.new(user)
+        if (captcha_correct = recaptcha_valid?) && @user.save
+          redirect resource(@user)
+        else
+          unless captcha_correct
+            @user.valid?
+            @user.errors.add(:general, "Captcha code is incorrect")
+        end
+        render :new
+      end
+      ......
+    end

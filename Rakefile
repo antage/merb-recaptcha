@@ -1,6 +1,10 @@
 require 'rubygems'
 require 'rake/gempackagetask'
+require 'rake/rdoctask'
 require 'rake/clean'
+
+require 'yard'
+require 'yard/rake/yardoc_task'
 
 require 'spec/rake/spectask'
 
@@ -19,15 +23,14 @@ spec = Gem::Specification.new do |s|
   s.name = GEM_NAME
   s.version = GEM_VERSION
   s.platform = Gem::Platform::RUBY
-  s.has_rdoc = true
-  s.extra_rdoc_files = ["README.textile", "LICENSE", 'TODO']
+  s.has_rdoc = false
   s.summary = SUMMARY
   s.description = s.summary
   s.author = AUTHOR
   s.email = EMAIL
   s.homepage = HOMEPAGE
   s.require_path = 'lib'
-  s.files = %w(LICENSE README.textile Rakefile TODO merb-recaptcha.gemspec) + Dir["lib/**/*"].select { |f| File.file?(f) }
+  s.files = %w(LICENSE README.rdoc Rakefile TODO merb-recaptcha.gemspec) + Dir["lib/**/*"].select { |f| File.file?(f) }
   s.test_files = %w(spec/spec_helper.rb) + Dir["spec/*_spec.rb"] + Dir["spec/fixture/app/**/*"].select { |f| File.file?(f) }
 
   s.add_runtime_dependency "merb-core", ">= 1.0.0"
@@ -54,6 +57,15 @@ task :gemspec do
   File.open("#{GEM_NAME}.gemspec", "w") do |file|
     file.puts spec.to_ruby
   end
+end
+
+Rake::RDocTask.new do |rdoc|
+  files = ["README.rdoc", "LICENSE", "lib/**/*.rb"]
+  rdoc.rdoc_files.add(files)
+  rdoc.main = "README.rdoc"
+  rdoc.title = "merb-recaptcha docs"
+  rdoc.rdoc_dir = "doc"
+  rdoc.options << "--line-numbers" << "--inline-source"
 end
 
 Spec::Rake::SpecTask.new(:spec) do |t|

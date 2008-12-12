@@ -1,11 +1,54 @@
 require 'builder'
 
-module Merb
-  module Helpers
+module Merb # :nodoc:
+  module Helpers # :nodoc:
     module Recaptcha
       API_SERVER = "http://api.recaptcha.net"
       API_SECURE_SERVER = "https://api-secure.recaptcha.net"
 
+      # Display recaptcha widget in various ways.
+      # 
+      # * Display in-place:
+      #   <%= recaptcha_tags :ajax => false, :noscript => false %>
+      #
+      # * Display in-place with <noscript></noscript> block:
+      #   <%= recaptcha_tags :ajax => false, :noscript => true, :iframe_height => 100, :iframe_width => 100 %>
+      #
+      # * Dynamically create Recaptcha widget:
+      #     <%= recaptcha_tags :ajax => true, :element_id => "recaptcha_place" %>
+      #     <div id="recaptcha_place"></div>
+      #   The above code bind javascript code on onload event:
+      #     <script type="text/javascript">
+      #     ....
+      #     window.onload = function() { Recaptcha.create(....); }
+      #     ....
+      #     </script>
+      #   If you use jQuery, you could use special value for :ajax parameter:
+      #     <%= recaptcha_tags :ajax => :jquery %>
+      #     <div id="recpatcha"></div>
+      #   This code generates following:
+      #     <script type="text/javascript">
+      #     ....
+      #     $(document).ready(function() { Recaptcha.create(....); });
+      #     ....
+      #     </script>
+      #   You can specified callback function that will be invoked after widget has been created:
+      #     <%= recaptcha_tags :ajax => true, :callback => "Recaptcha.focus_response_field" %>
+      #     <div id="recaptcha"></div>
+      #   This code will set focus on response field of created widget.
+      #
+      # For both displaying ways, you can customize widget:
+      #   <%= recaptcha_tags :theme => "clean", :tabindex => 2 %>
+      # More detailed description of customizing options is at http://recaptcha.net/apidocs/captcha/client.html
+      #
+      # Default values of options:
+      # * :ajax => false
+      # * :element_id => "recaptcha"
+      # * :callback => nil
+      # * :noscript => false
+      # * :iframe_height => 300
+      # * :iframe_width => 500
+      #
       def recaptcha_tags(options = {})
         public_key = Merb::Plugins.config[:merb_recaptcha][:public_key] 
 

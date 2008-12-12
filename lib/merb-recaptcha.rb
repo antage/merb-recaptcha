@@ -12,10 +12,10 @@ if defined?(Merb::Plugins)
     require 'merb-recaptcha/view_helpers.rb'
     require 'merb-recaptcha/exceptions.rb'
     require 'merb-recaptcha/controller_mixin.rb'
-    module Merb::GlobalHelpers
+    module Merb::GlobalHelpers # :nodoc:
       include Merb::Helpers::Recaptcha
     end
-    class Merb::Controller
+    class Merb::Controller # :nodoc:
       include Merb::RecaptchaMixin
     end
   end
