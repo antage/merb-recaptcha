@@ -1,5 +1,6 @@
-* Extracted constants in constants.rb.
-* Added RDoc documentation.
+Version 1.0.1:
+  * Extracted constants in constants.rb.
+  * Added RDoc documentation.
 
 Version 1.0.0:
-* Initial release.
+  * Initial release.
