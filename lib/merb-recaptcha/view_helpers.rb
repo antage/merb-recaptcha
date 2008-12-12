@@ -7,10 +7,10 @@ module Merb # :nodoc:
       # Display recaptcha widget in various ways.
       # 
       # * Display in-place:
-      #   <%= recaptcha_tags :ajax => false, :noscript => false %>
+      #     <%= recaptcha_tags :ajax => false, :noscript => false %>
       #
       # * Display in-place with <noscript></noscript> block:
-      #   <%= recaptcha_tags :ajax => false, :noscript => true, :iframe_height => 100, :iframe_width => 100 %>
+      #     <%= recaptcha_tags :ajax => false, :noscript => true, :iframe_height => 100, :iframe_width => 100 %>
       #
       # * Dynamically create Recaptcha widget:
       #     <%= recaptcha_tags :ajax => true, :element_id => "recaptcha_place" %>
