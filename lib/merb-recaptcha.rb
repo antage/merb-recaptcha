@@ -9,6 +9,7 @@ if defined?(Merb::Plugins)
   
   Merb::BootLoader.before_app_loads do
     # require code that must be loaded before the application
+    require 'merb-recaptcha/constants.rb'
     require 'merb-recaptcha/view_helpers.rb'
     require 'merb-recaptcha/exceptions.rb'
     require 'merb-recaptcha/controller_mixin.rb'

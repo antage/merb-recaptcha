@@ -36,6 +36,7 @@ spec = Gem::Specification.new do |s|
   s.add_runtime_dependency "merb-core", ">= 1.0.0"
   s.add_runtime_dependency "builder", "~> 2.0"
   s.add_development_dependency "rspec", ">= 1.1.0"
+  s.add_development_dependency "mocha", ">= 0.9.3"
 end
 
 Rake::GemPackageTask.new(spec) do |pkg|

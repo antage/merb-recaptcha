@@ -7,12 +7,28 @@ class FakeController < Merb::Controller
 end
 
 describe "FakeController#check_recaptcha" do
-  def do_request
-    @response = dispatch_to(FakeController, "check_recaptcha", { :recaptcha_challenge_field => "blabla", :recaptcha_response_field => "blabla" })
+  def do_request(ssl = false)
+    @response = dispatch_to(FakeController, :check_recaptcha, { :recaptcha_challenge_field => "blabla", :recaptcha_response_field => "blabla" }, { "HTTPS" => ssl ? "on" : "off" })
   end
 
   def stub_response(body)
-    Net::HTTP.stub!(:post_form).and_return mock("Net::HTTPResponse", :body => body)
+    Net::HTTP.stubs(:post_form).returns stub("Net::HTTPResponse", :body => body)
+  end
+
+  describe "with non-SSL request" do
+    it "should use non-ssl API server" do
+      cond = proc { |*args| args.first.is_a?(URI::HTTP) && args.first.scheme == "http" && args.first.host == "api-verify.recaptcha.net" }
+      Net::HTTP.expects(:post_form).with(&cond).returns(stub("Net::HTTPResponse", :body => "true"))
+      do_request(false)
+    end
+  end
+
+  describe "with SSL request" do
+    it "should use non-ssl API server" do
+      cond = proc { |*args| args.first.is_a?(URI::HTTP) && args.first.scheme == "http" && args.first.host == "api-verify.recaptcha.net" }
+      Net::HTTP.expects(:post_form).with(&cond).returns(stub("Net::HTTPResponse", :body => "true"))
+      do_request(true)
+    end
   end
 
   describe "with correct response" do

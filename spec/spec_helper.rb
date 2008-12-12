@@ -26,6 +26,8 @@ Spec::Runner.configure do |config|
   config.include Merb::Test::ViewHelper
   config.include Merb::Test::RouteHelper
   config.include Merb::Test::ControllerHelper
+
+  config.mock_with :mocha
 end
 
 describe "ajax recaptcha", :shared => true do

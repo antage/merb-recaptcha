@@ -3,8 +3,6 @@ require 'builder'
 module Merb # :nodoc:
   module Helpers # :nodoc:
     module Recaptcha
-      API_SERVER = "http://api.recaptcha.net"
-      API_SECURE_SERVER = "https://api-secure.recaptcha.net"
 
       # Display recaptcha widget in various ways.
       # 
@@ -60,9 +58,9 @@ module Merb # :nodoc:
         iframe_width = options.delete(:iframe_width) || 500 # integer, only if noscript == true
 
         api_url = if request.ssl?
-          API_SECURE_SERVER
+          Merb::Recaptcha::API_SECURE_SERVER
         else
-          API_SERVER
+          Merb::Recaptcha::API_SERVER
         end
 
         result = ""

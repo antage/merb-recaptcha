@@ -9,7 +9,7 @@ module Merb # :nodoc:
     # * It will raise exception, if Recaptcha API server returns error.
     #
     def recaptcha_valid?
-      response = Net::HTTP.post_form(URI.parse("http://api-verify.recaptcha.net/verify"), {
+      response = Net::HTTP.post_form(URI.parse("#{Merb::Recaptcha::API_VERIFY_SERVER}/verify"), {
         :privatekey => Merb::Plugins.config[:merb_recaptcha][:private_key],
         :remoteip => request.remote_ip,
         :challenge => params[:recaptcha_challenge_field],
