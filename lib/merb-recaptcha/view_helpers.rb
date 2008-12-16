@@ -69,7 +69,7 @@ module Merb # :nodoc:
           xhtml.script(:type => "text/javascript", :src => "#{api_url}/js/recaptcha_ajax.js") {}
           xhtml.script(:type => "text/javascript") do
             options_and_callback = callback.nil? ? options : options.merge(:callback => callback)
-            xhtml.text!("var options = #{hash_to_json(options_and_callback)};\n")
+            xhtml << "var options = #{hash_to_json(options_and_callback)};\n"
             if ajax == :jquery
               xhtml.text!("$(document).ready(function() { Recaptcha.create('#{public_key}', document.getElementById('#{element_id}'), options); });\n")
             else
@@ -79,7 +79,7 @@ module Merb # :nodoc:
         else
           unless options.empty?
             xhtml.script(:type => "text/javascript") do
-              xhtml.text!("var RecaptchaOptions = #{hash_to_json(options)};\n")
+              xhtml << "var RecaptchaOptions = #{hash_to_json(options)};\n"
             end
           end
           xhtml.script(:type => "text/javascript", :src => "#{api_url}/challenge?k=#{public_key}") {}
