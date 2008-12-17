@@ -1,3 +1,5 @@
+  * In testing environment recaptcha_valid? always returns true.
+
 Version 1.0.1:
   * Extracted constants in constants.rb.
   * Added RDoc documentation.

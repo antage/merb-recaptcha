@@ -19,6 +19,7 @@ Merb::BootLoader.after_app_loads do
   Merb::Plugins.config[:merb_recaptcha][:private_key] = "QAAAAAA--private-key--AAAAAAAQ"
 
   Merb::Router.prepare { default_routes }
+  Merb::RecaptchaMixin.const_set(:DO_NOT_IGNORE_RECAPTCHA_IN_TESTING_ENV, true)
 end
 Merb.start_environment(options)
 
