@@ -67,19 +67,23 @@ module Merb # :nodoc:
         xhtml = Builder::XmlMarkup.new(:target => result, :indent => 2) 
         if ajax
           xhtml.script(:type => "text/javascript", :src => "#{api_url}/js/recaptcha_ajax.js") {}
-          xhtml.script(:type => "text/javascript") do
+          xhtml.script(:type => "text/javascript") do |js|
             options_and_callback = callback.nil? ? options : options.merge(:callback => callback)
-            xhtml << "var options = #{hash_to_json(options_and_callback)};\n"
+            js << "//<![CDATA[\n"
+            js << "var options = #{hash_to_json(options_and_callback)};\n"
             if ajax == :jquery
-              xhtml.text!("$(document).ready(function() { Recaptcha.create('#{public_key}', document.getElementById('#{element_id}'), options); });\n")
+              js << "$(document).ready(function() { Recaptcha.create('#{public_key}', document.getElementById('#{element_id}'), options); });\n"
             else
-              xhtml.text!("window.onload = function() { Recaptcha.create('#{public_key}', document.getElementById('#{element_id}'), options); }\n")
+              js << "window.onload = function() { Recaptcha.create('#{public_key}', document.getElementById('#{element_id}'), options); };\n"
             end
+            js << "//]]>\n"
           end
         else
           unless options.empty?
-            xhtml.script(:type => "text/javascript") do
-              xhtml << "var RecaptchaOptions = #{hash_to_json(options)};\n"
+            xhtml.script(:type => "text/javascript") do |js|
+              js << "//<![CDATA[\n"
+              js << "var RecaptchaOptions = #{hash_to_json(options)};\n"
+              js << "//]]>\n"
             end
           end
           xhtml.script(:type => "text/javascript", :src => "#{api_url}/challenge?k=#{public_key}") {}

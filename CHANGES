@@ -1,3 +1,6 @@
+Version 1.0.2:
+  * Wrap a javascript with "//<![CDATA[ ... //]]>" for more XML compliance.
+  * Do not use #test! to prevent inappropriate escaping a double quotes (thanks to Michael Johnston <lastobelus@mac.com>).
   * In testing environment recaptcha_valid? always returns true.
 
 Version 1.0.1:
