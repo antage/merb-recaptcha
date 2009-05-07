@@ -110,4 +110,16 @@ describe "FakeController#check_recaptcha" do
       lambda { do_request }.should raise_error(Merb::Recaptcha::InvalidReferrer)
     end
   end
+
+  describe "when can't connect to recaptcha" do
+    before(:each) do
+      Net::HTTP.stubs(:post_form).times(2).raises(Exception, "can't connect to recaptcha")
+    end
+
+    it "should pass through if env var OFFLINE is set" do
+      lambda { do_request }.should raise_error(Exception)
+      ENV['OFFLINE'] = '1'
+      lambda { do_request }.should_not raise_error
+    end
+  end
 end

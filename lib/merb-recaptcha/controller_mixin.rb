@@ -10,16 +10,26 @@ module Merb # :nodoc:
     #
     def recaptcha_valid?
       return true if (Merb.testing? && !Merb::RecaptchaMixin.const_defined?(:DO_NOT_IGNORE_RECAPTCHA_IN_TESTING_ENV))
-      response = Net::HTTP.post_form(URI.parse("#{Merb::Recaptcha::API_VERIFY_SERVER}/verify"), {
-        :privatekey => Merb::Plugins.config[:merb_recaptcha][:private_key],
-        :remoteip => request.remote_ip,
-        :challenge => params[:recaptcha_challenge_field],
-        :response => params[:recaptcha_response_field]
-      })
+      begin
+        response = Net::HTTP.post_form(URI.parse("#{Merb::Recaptcha::API_VERIFY_SERVER}/verify"), {
+          :privatekey => Merb::Plugins.config[:merb_recaptcha][:private_key],
+          :remoteip => request.remote_ip,
+          :challenge => params[:recaptcha_challenge_field],
+          :response => params[:recaptcha_response_field]
+        })
+      rescue Exception => e
+        if Merb.env?(:production) || ENV['OFFLINE']
+          Merb.logger.error("when trying to connect to recaptcha, got #{e.message}")
+          return true;
+        else
+          raise
+        end
+      end
       answer, error = response.body.split.map { |s| s.chomp }
       if answer == "true"
         true
       else
+        Merb.logger.fatal("recaptcha error: #{error} for #{request.remote_ip}")
         case error
         when "incorrect-captcha-sol" then false
         when "invalid-site-public-key" then raise Merb::Recaptcha::InvalidSitePublicKey
