@@ -3,17 +3,13 @@ require 'rake/gempackagetask'
 require 'rake/rdoctask'
 require 'rake/clean'
 
-require 'yard'
-require 'yard/rake/yardoc_task'
-
 require 'spec/rake/spectask'
 
 require 'merb-core'
 require 'merb-core/tasks/merb'
 
 GEM_NAME = "merb-recaptcha"
-GEM_VERSION = "1.0.2"
-AUTHOR = "Anton Ageev"
+GEM_VERSION = "1.0.3"
 EMAIL = "antage@gmail.com"
 HOMEPAGE = "http://github.com/antage/merb-recaptcha/"
 SUMMARY = "Merb plugin that provides helpers for recaptcha.net service"
@@ -23,12 +19,12 @@ spec = Gem::Specification.new do |s|
   s.name = GEM_NAME
   s.version = GEM_VERSION
   s.platform = Gem::Platform::RUBY
+  s.authors = ["Anton Ageev", "Michael Johnston"]
   s.has_rdoc = true
   s.extra_rdoc_files = [ "README.rdoc", "LICENSE" ]
   s.rdoc_options << "--main" << "README.rdoc"
   s.summary = SUMMARY
   s.description = s.summary
-  s.author = AUTHOR
   s.email = EMAIL
   s.homepage = HOMEPAGE
   s.require_path = 'lib'
