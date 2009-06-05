@@ -38,6 +38,7 @@ And then check captcha in controller:
           unless captcha_correct
             @user.valid?
             @user.errors.add(:general, "Captcha code is incorrect")
+          end
         end
         render :new
       end
