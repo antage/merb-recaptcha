@@ -7,10 +7,10 @@ Merb-recaptcha is plugin for Merb web-framework. It provides view and controller
 == Installation
 
 Install gem from github.com:
-    gem install antage-merb-recaptcha --source=http://gems.github.com
+    gem install merb-recaptcha --source=http://gemcutter.org
 
 Add following line in <tt>config/dependencies.rb</tt> of your web application:
-    dependency "antage-merb-recaptcha", "~> 1.0.0", :require_as => "merb-recaptcha"
+    dependency "merb-recaptcha", "~> 1.0.0", :require_as => "merb-recaptcha"
 
 Sign up at Recaptcha and get public and private keys. Add keys in <tt>config/init.rb</tt>:
     Merb::BootLoader.after_app_loads do
